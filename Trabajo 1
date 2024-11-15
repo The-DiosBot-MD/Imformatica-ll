@@ -1,0 +1,107 @@
+SubProceso CarMatriz(matriz[4,5], equipos[4] por referencia)
+    Para i <- 1 Hasta 4 Hacer
+        Para j <- 1 Hasta 5 Hacer
+            Repetir
+                Escribir "Introduce el puntaje del equipo ", equipos[i], " en la disciplina ", j, " (0, 1 o 3):"
+                Leer matriz[i,j]
+				Hasta matriz[i,j] = 0 O matriz[i,j] = 1 O matriz[i,j] = 3
+			FinPara
+		FinPara
+FinSubProceso
+SubProceso EquiGanador(matriz[4,5], equipos[4] por referencia)
+	Definir ganador Como Caracter
+    Definir suma, maxPuntaje Como Entero
+    maxPuntaje <- -1
+    Para i <- 1 Hasta 4 Hacer
+        suma <- 0
+        Para j <- 1 Hasta 5 Hacer
+            suma <- suma + matriz[i,j]
+        FinPara
+        Si suma > maxPuntaje Entonces
+            maxPuntaje <- suma
+            ganador <- equipos[i]
+        FinSi
+    FinPara
+FinSubProceso
+SubProceso PunBajo(matriz[4,5] por referencia)
+	Definir minimo Como Entero
+    minimo <- matriz[1,1]
+    Para i <- 1 Hasta 4 Hacer
+        Para j <- 1 Hasta 5 Hacer
+            Si matriz[i,j] < minimo Entonces
+                minimo <- matriz[i,j]
+            FinSi
+        FinPara
+    FinPara
+FinSubProceso
+SubProceso TotPunEquipo(matriz[4,5], equipos[4] por referencia)
+	Definir nomBusca Como Cadena
+	Definir total Como Real
+    total <- -1
+    Para i <- 1 Hasta 4 Hacer
+        Si equipos[i] = nomBusca Entonces
+            total <- 0
+            Para j <- 1 Hasta 5 Hacer
+                total <- total + matriz[i,j]
+            FinPara
+        FinSi
+    FinPara
+FinSubProceso
+SubProceso PromDisci(matriz[4,5] por referencia)
+	Definir disciplina Como Entero
+	Definir Ref promedio Como Real
+    Definir suma Como Entero
+    suma <- 0
+    Para i <- 1 Hasta 4 Hacer
+        suma <- suma + matriz[i,disciplina]
+    FinPara
+    promedio <- suma / 4
+FinSubProceso
+SubProceso MejorPromDisci(matriz[4,5] por referencia)
+	Definir disciplinaMejor Como Entero
+    Definir mejorPromedio, promedio Como Real
+    mejorPromedio <- -1
+    Para j <- 1 Hasta 5 Hacer
+        Llamar PromedioDisciplina(matriz, j, promedio)
+        Si promedio > mejorPromedio Entonces
+            mejorPromedio <- promedio
+            disciplinaMejor <- j
+        FinSi
+    FinPara
+FinSubProceso
+
+Proceso Competenciaequipos
+    //Definir equipos[4] Como Cadena
+    //Definir matriz[4,5] Como Entero
+    Definir nombreBuscado Como Cadena
+    Definir totalPuntos, promedio como Real
+    Definir disciMejorProm Como Entero
+	Dimensionar equipos[4] ,matriz[4,5]
+    Escribir "Introduce el nombre de los equipos (uno por uno):"
+    Para i <- 1 Hasta 4 Hacer
+        Escribir "Equipo ", i, ":"
+        Leer equipos[i]
+    FinPara
+    CargarMatriz(matriz, equipos)
+    Definir ganador Como Cadena
+    EquiGanador(matriz, equipos, ganador)
+    Escribir "El equipo ganador es: ", ganador
+    Definir puntajeMasBajo Como Entero
+    PuntBajo(matriz, puntajeMasBajo)
+    Escribir "El puntaje más bajo es: ", puntajeMasBajo
+    Escribir "Introduce el nombre del equipo para calcular su total de puntos:"
+    Leer nombreBuscado
+	TotPunEquipo(matriz, equipos, nombreBuscado, totalPuntos)
+    Si totalPuntos >= 0 Entonces
+        Escribir "El total de puntos del equipo ", nombreBuscado, " es: ", totalPuntos
+    Sino
+        Escribir "El equipo no fue encontrado."
+    FinSi
+    Escribir "Promedio por disciplina:"
+    Para j <- 1 Hasta 5 Hacer
+        PromDisci(matriz, j, promedio)
+        Escribir "Disciplina ", j, ": ", promedio
+    FinPara
+    MejorPromDisci(matriz, disciMejorProm)
+    Escribir "La disciplina con el mejor promedio es: Disciplina ", disciMejorProm
+FinProceso
